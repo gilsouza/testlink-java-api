@@ -47,6 +47,7 @@ public class CustomField implements Serializable {
     private Boolean showOnExecution;
     private Boolean enableOnExecution;
     private Boolean showOnTestPlanDesign;
+    //FIXME: falta get
     private Boolean enableOnTestPlanDesign;
     private Integer displayOrder; // ?
     private Integer location; // ?

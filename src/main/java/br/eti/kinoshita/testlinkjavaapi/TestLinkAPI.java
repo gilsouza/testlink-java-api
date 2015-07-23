@@ -978,7 +978,7 @@ public class TestLinkAPI {
      * @param testProjectId
      * @param customFieldName
      * @param details
-     * @return
+     * @return CustomField
      * @throws TestLinkAPIException
      */
     public CustomField getTestCaseCustomFieldTestPlanDesignValue(Integer testCaseId, Integer testCaseExternalId,
@@ -998,7 +998,7 @@ public class TestLinkAPI {
      * @param testProjectId
      * @param customFieldName
      * @param details
-     * @return
+     * @return CustomField
      * @throws TestLinkAPIException
      */
     public CustomField getTestCaseCustomFieldExecutionValue(Integer testCaseId, Integer testCaseExternalId,
@@ -1006,6 +1006,20 @@ public class TestLinkAPI {
             ResponseDetails details) throws TestLinkAPIException {
         return this.testCaseService.getTestCaseCustomFieldExecutionValue(testCaseId, testCaseExternalId, versionNumber,
                 executionId, testProjectId, customFieldName, details);
+    }
+    
+    /**
+     * Gets the test plan custom field value on test design scope.
+     * 
+     * @param testProjectId
+     * @param testPlanId
+     * @param customFieldName
+     * @return CustomField
+     * @throws TestLinkAPIException
+     */
+    public CustomField getTestPlanCustomFieldDesignValue(Integer testProjectId, Integer testPlanId, String customFieldName) 
+    		throws TestLinkAPIException {
+    	return this.testPlanService.getTestPlanCustomFieldDesignValue(testProjectId, testPlanId, customFieldName);
     }
 
     /**

@@ -32,9 +32,11 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
+import br.eti.kinoshita.testlinkjavaapi.constants.ResponseDetails;
 import br.eti.kinoshita.testlinkjavaapi.constants.TestLinkMethods;
 import br.eti.kinoshita.testlinkjavaapi.constants.TestLinkParams;
 import br.eti.kinoshita.testlinkjavaapi.constants.TestLinkResponseParams;
+import br.eti.kinoshita.testlinkjavaapi.model.CustomField;
 import br.eti.kinoshita.testlinkjavaapi.model.Platform;
 import br.eti.kinoshita.testlinkjavaapi.model.TestPlan;
 import br.eti.kinoshita.testlinkjavaapi.util.TestLinkAPIException;
@@ -197,6 +199,35 @@ class TestPlanService extends BaseService {
         } catch (XmlRpcException xmlrpcex) {
             throw new TestLinkAPIException("Error retrieving platforms: " + xmlrpcex.getMessage(), xmlrpcex);
         }
+    }
+    
+    protected CustomField getTestPlanCustomFieldDesignValue(Integer testProjectId, Integer testPlanId, String customFieldName)
+            throws TestLinkAPIException {
+        CustomField customField = null;
+
+        try {
+            Map<String, Object> executionData = new HashMap<String, Object>();
+            executionData.put(TestLinkParams.TEST_PROJECT_ID.toString(), testProjectId);
+            executionData.put(TestLinkParams.TEST_PLAN_ID.toString(), testPlanId);
+            executionData.put(TestLinkParams.CUSTOM_FIELD_NAME.toString(), customFieldName);
+
+            Object response = this.executeXmlRpcCall(
+                    TestLinkMethods.GET_TEST_PLAN_CUSTOM_FIELD_DESING_VALUE.toString(), executionData);
+
+            if (response instanceof String) {
+                customField = new CustomField();
+                customField.setValue(response.toString());
+            } else if (response instanceof Map<?, ?>) {
+                Map<String, Object> responseMap = Util.castToMap(response);
+                customField = Util.getCustomField(responseMap);
+            }
+
+        } catch (XmlRpcException xmlrpcex) {
+            throw new TestLinkAPIException("Error retrieving test case custom field value: " + xmlrpcex.getMessage(),
+                    xmlrpcex);
+        }
+
+        return customField;
     }
     
     public static void main(String[] args) throws MalformedURLException {
